@@ -2,9 +2,9 @@
 
 import axios from "axios"
 import config from "../config/index"
-import { ElMessage } from "element-plus"
+import storage from "./storage"
 import router from "../router"
-import storage from "../store"
+import { ElMessage } from "element-plus"
 
 const TOKEN_INVALID = "Token认证失败，请重新登录"
 const NETWORK_ERROR = "网络请求异常，请稍后重试"
