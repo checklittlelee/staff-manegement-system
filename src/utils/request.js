@@ -68,16 +68,15 @@ function request(options) {
   if (options.method.toLowerCase() === "get") {
     options.params = options.data // get请求中，查询参数放在 params 中
   }
-  // let isMock = config.mock
-  // if (typeof options.mock != 'undefined') {
-  //     isMock = options.mock;
-  // }
-  // // console.log(config.mock);
-  // if (config.env === 'prod') {
-  //     service.defaults.baseURL = config.baseApi
-  // } else {
-  //     service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
-  // }
+  let isMock = config.mock
+  if (typeof options.mock != "undefined") {
+    isMock = options.mock
+  }
+  if (config.env === "prod") {
+    service.defaults.baseURL = config.baseApi
+  } else {
+    service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
+  }
 
   return service(options) // 使用 Axios 实例发送请求，返回Promise对象
 }

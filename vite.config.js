@@ -18,5 +18,12 @@ export default defineConfig({
   ],
   server: {
     port: 8081,
+    // proxy: {
+    //   "/api": {
+    //     target: "https://mock.apifox.com/m1/4068509-0-default",
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ""),
+    //   },
+    // },
   },
 })

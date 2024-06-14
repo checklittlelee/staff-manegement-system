@@ -7,7 +7,7 @@ const env = import.meta.env.MODE || "prod" // 如果没有MODE，则使用 prod�
 const EnvConfig = {
   dev: {
     baseApi: "/api",
-    mockApi: "https://mock.apifox.com/m1/4068509-0-default/api",
+    mockApi: "https://mock.apipark.cn/m1/4068509-0-default/api",
   },
   test: {
     baseApi: "//test.futurefe.com/api",
@@ -22,7 +22,7 @@ const EnvConfig = {
 // 3. 根据当前环境，导出配置对象
 export default {
   env,
-  // mock: true,
+  mock: true,
   namespace: "manage", // 防止命名冲突、便于管理
   ...EnvConfig[env], // 根据当前环境展开相应的配置
 }
