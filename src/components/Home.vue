@@ -1,14 +1,20 @@
+eww
 <template>
   <div class="basic-layout">
     <!-- 左 -->
     <div class="nav-side">
       <!-- 系统LOGO -->
-      <div class="logo">
+      <div class="logo" @click="goHome">
         <img src="../assets/logo.png" alt="" />
         <span>员工管理系统</span>
       </div>
       <!-- 导航菜单 -->
-      <el-menu class="nav-menu" background-color="#001529" text-color="#fff">
+      <el-menu
+        class="nav-menu"
+        background-color="#001529"
+        text-color="#fff"
+        router
+      >
         <TreeMenu :userMenu="userMenu" />
       </el-menu>
     </div>
@@ -84,6 +90,7 @@ const getMenuList = async () => {
   try {
     const { menuList, actionList } = await proxy.$api.permissionList()
     userMenu.value = menuList
+    console.log(menuList, "menuList")
     store.commit("saveMenuList", menuList)
     store.commit("saveActionList", actionList)
   } catch (error) {
@@ -128,6 +135,10 @@ const logoutToggle = async () => {
       })
     }
   }
+}
+// 点击Logo回到首页
+const goHome = () => {
+  router.push("/welcome")
 }
 </script>
 

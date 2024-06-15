@@ -3,7 +3,6 @@
     <!-- 有子菜单的菜单项 -->
     <el-sub-menu v-if="hasChildren(menu)" :key="menu._id" :index="menu.path">
       <template #title>
-        <i :class="menu.icon"></i>
         <span>{{ menu.menuName }}</span>
       </template>
       <TreeMenu :userMenu="menu.children" />
@@ -14,7 +13,6 @@
     }}</el-menu-item>
   </template>
 </template>
-
 <script setup>
 import { defineProps } from "vue"
 
@@ -495,3 +493,13 @@ const hasChildren = (menu) => {
   )
 }
 </script>
+
+<style lang="scss" scoped>
+.icons {
+  width: 38px;
+  height: 38px;
+  margin-right: 5px;
+  color: #fff;
+  z-index: 999;
+}
+</style>
