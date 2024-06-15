@@ -54,14 +54,14 @@ const rules = reactive({
 const login = () => {
   loginForm.value.validate((valid) => {
     if (valid) {
-      console.log("Login.vue页面，表单验证成功")
+      // console.log("Login.vue页面，表单验证成功")
       proxy.$api.login(loginInfo).then((res) => {
-        console.log("Login.vue页面，", res)
+        // console.log("Login.vue页面，", res)
         store.commit("saveUserInfo", res)
         router.push("/welcome")
       })
     } else {
-      console.log("Login.vue页面，表单验证失败")
+      // console.log("Login.vue页面，表单验证失败")
       return false
     }
   })

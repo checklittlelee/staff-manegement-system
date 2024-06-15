@@ -32,7 +32,7 @@ export default {
       url: "/users/getPremissionList",
       method: "get",
       data: {},
-      // mock: true
+      // mock: true,
     })
   },
   userList(params) {

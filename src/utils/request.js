@@ -10,7 +10,8 @@ const TOKEN_INVALID = "Token认证失败，请重新登录"
 const NETWORK_ERROR = "网络请求异常，请稍后重试"
 
 const service = axios.create({
-  baseURL: config.baseApi,
+  // baseURL: config.baseApi,
+  baseURL: "http://124.223.69.156:3000/api",
   timeout: 8000,
 })
 
@@ -68,15 +69,15 @@ function request(options) {
   if (options.method.toLowerCase() === "get") {
     options.params = options.data // get请求中，查询参数放在 params 中
   }
-  let isMock = config.mock
-  if (typeof options.mock != "undefined") {
-    isMock = options.mock
-  }
-  if (config.env === "prod") {
-    service.defaults.baseURL = config.baseApi
-  } else {
-    service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
-  }
+  // let isMock = config.mock
+  // if (typeof options.mock != "undefined") {
+  //   isMock = options.mock
+  // }
+  // if (config.env === "prod") {
+  //   service.defaults.baseURL = config.baseApi
+  // } else {
+  //   service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
+  // }
 
   return service(options) // 使用 Axios 实例发送请求，返回Promise对象
 }
