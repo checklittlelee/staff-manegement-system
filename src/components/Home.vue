@@ -90,7 +90,7 @@ const getMenuList = async () => {
   try {
     const { menuList, actionList } = await proxy.$api.permissionList()
     userMenu.value = menuList
-    console.log(menuList, "menuList")
+    // console.log(menuList, "menuList")
     store.commit("saveMenuList", menuList)
     store.commit("saveActionList", actionList)
   } catch (error) {
