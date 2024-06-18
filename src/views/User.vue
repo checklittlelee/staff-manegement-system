@@ -70,6 +70,7 @@
   <el-dialog
     v-model="dialogVisible"
     :title="action === 'add' ? '用户新增' : '编辑用户'"
+    :before-close="handleClose"
   >
     <el-form
       :model="userForm"
