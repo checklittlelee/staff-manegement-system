@@ -8,7 +8,7 @@ export default {
       url: "/users/login",
       method: "post",
       data: params,
-      mock: true,
+      mock: false,
     })
   },
   noticeCount() {
@@ -16,7 +16,7 @@ export default {
       url: "/leave/count",
       method: "get",
       data: {},
-      mock: false,
+      mock: true,
     })
   },
   menuList(data) {
@@ -24,7 +24,7 @@ export default {
       url: "/menu/list",
       method: "get",
       data,
-      // mock: true
+      mock: true,
     })
   },
   permissionList() {
@@ -32,7 +32,7 @@ export default {
       url: "/users/getPremissionList",
       method: "get",
       data: {},
-      // mock: true,
+      mock: true,
     })
   },
   userList(params) {
@@ -40,7 +40,7 @@ export default {
       url: "/users/list",
       method: "get",
       data: params,
-      // mock: false
+      mock: false,
     })
   },
   userAllList() {
@@ -62,7 +62,7 @@ export default {
     return request({
       url: "/roles/allList",
       method: "get",
-      mock: false,
+      mock: true,
     })
   },
   getDeptList(params) {
@@ -70,14 +70,14 @@ export default {
       url: "/dept/list",
       method: "get",
       data: params,
-      mock: false,
+      mock: true,
     })
   },
   userSubmit(params) {
     return request({
       url: "/users/operate",
       method: "post",
-      // mock: true,
+      mock: false,
       data: params,
     })
   },

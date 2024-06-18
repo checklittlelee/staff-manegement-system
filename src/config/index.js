@@ -7,7 +7,8 @@ const env = import.meta.env.MODE || "prod" // 如果没有MODE，则使用 prod�
 const EnvConfig = {
   dev: {
     baseApi: "/api",
-    mockApi: "https://mock.apipark.cn/m1/4068509-0-default/api",
+    // mockApi: "https://mock.apipark.cn/m1/4068509-0-default/api",
+    mockApi: "http://124.223.69.156:3000/api",
   },
   test: {
     baseApi: "//test.futurefe.com/api",

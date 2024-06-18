@@ -43,7 +43,7 @@ eww
           </el-badge>
           <el-dropdown>
             <span class="user-link">
-              用户
+              {{ userInfo.userName }}
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
@@ -51,7 +51,7 @@ eww
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item disabled
-                  >邮箱：{{ userEmail }}</el-dropdown-item
+                  >邮箱：{{ userInfo.userEmail }}</el-dropdown-item
                 >
                 <el-dropdown-item @click="logoutToggle">退出</el-dropdown-item>
               </el-dropdown-menu>
@@ -78,7 +78,8 @@ const router = useRouter()
 const store = useStore()
 
 const noticeCount = computed(() => store.state.noticeCount)
-const userEmail = computed(() => store.state.userInfo?.userEmail || "")
+// const userEmail = computed(() => store.state.userInfo?.userEmail || "")
+const userInfo = store.state.userInfo || {}
 
 // 获取通知数据，分发 Vuex action 执行异步操作
 const fetchNoticeCount = () => {

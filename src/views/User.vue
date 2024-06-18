@@ -78,7 +78,11 @@
       :rules="rules"
     >
       <el-form-item label="用户名" prop="userName">
-        <el-input placeholder="请输入用户名称" v-model="userForm.userName" />
+        <el-input
+          placeholder="请输入用户名称"
+          v-model="userForm.userName"
+          :disabled="action == 'edit'"
+        />
       </el-form-item>
       <el-form-item label="邮箱" prop="userEmail">
         <el-input
@@ -210,7 +214,6 @@ const getUserList = async () => {
     pager.total = page.total
   } catch (error) {
     console.error("获取用户列表失败：", error)
-    proxy.$message.error("获取用户列表失败，请稍后重试")
   }
 }
 
