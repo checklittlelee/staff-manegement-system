@@ -5,7 +5,7 @@ import request from "./../utils/request"
 export default {
   login(params) {
     return request({
-      url: "/users/login",
+      url: "/user/login",
       method: "post",
       data: params,
       mock: false,
@@ -24,20 +24,20 @@ export default {
       url: "/menu/list",
       method: "get",
       data,
-      mock: true,
+      mock: false,
     })
   },
   permissionList() {
     return request({
-      url: "/users/getPremissionList",
+      url: "/user/getPremissionList",
       method: "get",
       data: {},
-      mock: true,
+      mock: false,
     })
   },
   userList(params) {
     return request({
-      url: "/users/list",
+      url: "/user/list",
       method: "get",
       data: params,
       mock: false,
@@ -45,14 +45,14 @@ export default {
   },
   userAllList() {
     return request({
-      url: "/users/all/list",
+      url: "/user/all/list",
       method: "get",
       mock: false,
     })
   },
   userDelete(params) {
     return request({
-      url: "/users/delete",
+      url: "/user/delete",
       method: "post",
       data: params,
       mock: false,
@@ -75,10 +75,10 @@ export default {
   },
   userSubmit(params) {
     return request({
-      url: "/users/operate",
+      url: "/user/operate",
       method: "post",
-      mock: false,
       data: params,
+      mock: false,
     })
   },
   menuSubmit(params) {
@@ -86,6 +86,7 @@ export default {
       url: "/menu/operate",
       method: "post",
       data: params,
+      mock: false,
     })
   },
   roleList(params) {
@@ -93,7 +94,7 @@ export default {
       url: "/roles/list",
       method: "get",
       data: params,
-      mock: false,
+      mock: true,
     })
   },
   roleOperate(params) {
@@ -101,7 +102,7 @@ export default {
       url: "/roles/operate",
       method: "post",
       data: params,
-      mock: false,
+      mock: true,
     })
   },
   updatePermission(params) {
