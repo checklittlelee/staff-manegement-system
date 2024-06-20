@@ -85,4 +85,23 @@ const router = createRouter({
   routes,
 })
 
+function checkPermission(path) {
+  let hasPermission = router
+    .getRoutes()
+    .filter((route) => route.path == path).length
+  if (hasPermission) {
+    return true
+  } else {
+    return false
+  }
+}
+router.beforeEach((to, from, next) => {
+  if (checkPermission(to.path)) {
+    document.title = to.meta.title
+    next()
+  } else {
+    next("/404")
+  }
+})
+
 export default router

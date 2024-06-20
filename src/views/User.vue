@@ -26,8 +26,15 @@
   <div class="base-table">
     <!-- 新增批量删除 -->
     <div class="action">
-      <el-button type="primary" @click="handleCreate">新增</el-button>
-      <el-button type="danger" @click="handlePatchDelete">批量删除</el-button>
+      <el-button type="primary" @click="handleCreate" v-has="'user-add'"
+        >新增</el-button
+      >
+      <el-button
+        type="danger"
+        @click="handlePatchDelete"
+        v-has="'user-patch-delete'"
+        >批量删除</el-button
+      >
     </div>
     <!-- 表格 -->
     <el-table
@@ -46,10 +53,18 @@
       />
       <el-table-column label="操作" width="150">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.row)"
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleEdit(scope.row)"
+            v-has="'user-edit'"
             >编辑</el-button
           >
-          <el-button type="danger" size="small" @click="handelDelete(scope.row)"
+          <el-button
+            type="danger"
+            size="small"
+            @click="handelDelete(scope.row)"
+            v-has="'user-delete'"
             >删除</el-button
           >
         </template>
@@ -366,7 +381,7 @@ const handleSubmit = () => {
       let res = await proxy.$api.userSubmit(params)
       if (res) {
         ElMessage({
-          message: "新增用户成功",
+          message: "操作成功",
           type: "success",
         })
         handleClose()
