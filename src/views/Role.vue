@@ -2,7 +2,7 @@
   <div class="role-manage">
     <!-- 上方：输入框 + 查询 + 重置 -->
     <div class="query-form">
-      <el-form :inline="true" :model="role" ref="queryForm">
+      <el-form inline :model="role" ref="queryForm">
         <el-form-item label="角色名称" prop="roleName">
           <el-input
             v-model="role.roleName"

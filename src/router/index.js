@@ -1,4 +1,7 @@
 import { createWebHashHistory, createRouter } from "vue-router"
+import storage from "../utils/storage"
+import util from "../utils/utils"
+import API from "../api"
 
 import Home from "../components/Home.vue"
 
@@ -18,48 +21,48 @@ const routes = [
         },
         component: () => import("../views/Welcome.vue"),
       },
-      {
-        name: "system",
-        path: "/system",
-        meta: {
-          title: "系统管理",
-        },
-        redirect: { name: "user" },
-        children: [
-          {
-            name: "user",
-            path: "user",
-            meta: {
-              title: "用户管理",
-            },
-            component: () => import("../views/User.vue"),
-          },
-          {
-            name: "menu",
-            path: "menu",
-            meta: {
-              title: "菜单管理",
-            },
-            component: () => import("../views/Menu.vue"),
-          },
-          {
-            name: "role",
-            path: "role",
-            meta: {
-              title: "角色管理",
-            },
-            component: () => import("../views/Role.vue"),
-          },
-          {
-            name: "dept",
-            path: "dept",
-            meta: {
-              title: "部门管理",
-            },
-            component: () => import("../views/Dept.vue"),
-          },
-        ],
-      },
+      // {
+      //   name: "system",
+      //   path: "/system",
+      //   meta: {
+      //     title: "系统管理",
+      //   },
+      //   redirect: { name: "user" },
+      //   children: [
+      //     {
+      //       name: "user",
+      //       path: "user",
+      //       meta: {
+      //         title: "用户管理",
+      //       },
+      //       component: () => import("../views/User.vue"),
+      //     },
+      //     {
+      //       name: "menu",
+      //       path: "menu",
+      //       meta: {
+      //         title: "菜单管理",
+      //       },
+      //       component: () => import("../views/Menu.vue"),
+      //     },
+      //     {
+      //       name: "role",
+      //       path: "role",
+      //       meta: {
+      //         title: "角色管理",
+      //       },
+      //       component: () => import("../views/Role.vue"),
+      //     },
+      //     {
+      //       name: "dept",
+      //       path: "dept",
+      //       meta: {
+      //         title: "部门管理",
+      //       },
+      //       component: () => import("../views/Dept.vue"),
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -84,6 +87,25 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+
+async function loadAsyncRoutes() {
+  let userInfo = storage.getItem("userInfo") || {}
+  if (userInfo.token) {
+    try {
+      const { menuList } = await API.permissionList()
+
+      let routes = util.generateRoute(menuList)
+      const modules = import.meta.glob("../views/**/*.vue")
+      routes.map((route) => {
+        let url = `../views/${route.component}.vue`
+
+        route.component = modules[url]
+        router.addRoute("home", route)
+      })
+    } catch (error) {}
+  }
+}
+await loadAsyncRoutes()
 
 function checkPermission(path) {
   let hasPermission = router

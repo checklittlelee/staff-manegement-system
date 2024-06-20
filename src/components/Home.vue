@@ -120,7 +120,7 @@ const logoutToggle = async () => {
     })
     ElMessage({
       type: "success",
-      message: "等出成功！",
+      message: "登出成功！",
     })
     await store.commit("clearUserInfo")
     await store.commit("clearMenuList")

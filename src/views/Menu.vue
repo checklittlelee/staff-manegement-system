@@ -2,7 +2,7 @@
   <div class="menu-manage">
     <!-- 上方：输入框 + 查询 + 重置 -->
     <div class="query-form">
-      <el-form :inline="true" :model="menu" ref="queryForm">
+      <el-form inline :model="menu" ref="queryForm">
         <el-form-item label="菜单名称" prop="menuName">
           <el-input v-model="menu.menuName" placeholder="请输出菜单名称" />
         </el-form-item>
@@ -80,8 +80,8 @@
         </el-form-item>
         <el-form-item prop="menuType" label="菜单类型">
           <el-radio-group v-model="menuForm.menuType">
-            <el-radio :label="1">菜单</el-radio>
-            <el-radio :label="2">按钮</el-radio>
+            <el-radio :value="1">菜单</el-radio>
+            <el-radio :value="2">按钮</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item prop="menuName" label="菜单名称">
@@ -121,8 +121,8 @@
           v-show="menuForm.menuType == 1"
         >
           <el-radio-group v-model="menuForm.menuState">
-            <el-radio :label="1">正常</el-radio>
-            <el-radio :label="2">停用</el-radio>
+            <el-radio :value="1">正常</el-radio>
+            <el-radio :value="2">停用</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

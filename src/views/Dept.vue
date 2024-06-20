@@ -2,7 +2,7 @@
   <div class="dept-manage">
     <!-- 上方：输入框 + 查询 + 重置 -->
     <div class="query-form">
-      <el-form :inline="true" :model="dept" ref="queryForm">
+      <el-form inline :model="dept" ref="queryForm">
         <el-form-item label="部门名称" prop="deptName">
           <el-input v-model="dept.deptName" placeholder="请输出部门名称" />
         </el-form-item>
@@ -256,5 +256,4 @@ const handleSubmit = () => {
     }
   })
 }
-// 点击对话框确定按钮
 </script>

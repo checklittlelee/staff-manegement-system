@@ -1,7 +1,7 @@
 <template>
   <!-- 上方：输入框 + 查询 + 重置 -->
   <div class="query-form">
-    <el-form :model="user" :inline="true" ref="queryForm">
+    <el-form inline :model="user" ref="queryForm">
       <el-form-item label="用户名ID" prop="userId">
         <el-input v-model="user.userId" placeholder="请输入用户ID" />
       </el-form-item>

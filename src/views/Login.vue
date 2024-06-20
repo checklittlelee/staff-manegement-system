@@ -31,6 +31,8 @@
 import { ref, reactive, getCurrentInstance } from "vue"
 import { useRouter } from "vue-router"
 import { useStore } from "vuex"
+import util from "../utils/utils"
+import API from "../api"
 import { User, View } from "@element-plus/icons-vue"
 import axios from "axios"
 
@@ -54,17 +56,31 @@ const rules = reactive({
 const login = () => {
   loginForm.value.validate((valid) => {
     if (valid) {
-      // console.log("Login.vue页面，表单验证成功")
       proxy.$api.login(loginInfo).then((res) => {
         // console.log("Login.vue页面，", res)
         store.commit("saveUserInfo", res)
         router.push("/welcome")
       })
     } else {
-      // console.log("Login.vue页面，表单验证失败")
       return false
     }
   })
+}
+
+const loadAsyncRoutes = async () => {
+  let userInfo = storage.getItem("userInfo") || {}
+  if (userInfo.token) {
+    try {
+      const { menuList } = await API.permissionList()
+      let routes = util.generateRoute(menuList)
+      const modules = import.meta.glob("../**/*.vue")
+      routes.map((route) => {
+        let url = `./${route.component}.vue`
+        route.component = modules[url]
+        router.addRoute("home", route)
+      })
+    } catch (error) {}
+  }
 }
 </script>
 
