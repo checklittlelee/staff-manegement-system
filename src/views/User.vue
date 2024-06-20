@@ -1,12 +1,12 @@
 <template>
   <!-- 上方：输入框 + 查询 + 重置 -->
   <div class="query-form">
-    <el-form :model="user" :inline="true" ref="form">
+    <el-form :model="user" :inline="true" ref="queryForm">
       <el-form-item label="用户名ID" prop="userId">
-        <el-input placeholder="请输入用户ID" v-model="user.userId" />
+        <el-input v-model="user.userId" placeholder="请输入用户ID" />
       </el-form-item>
       <el-form-item label="用户名" prop="userName">
-        <el-input placeholder="请输入用户名" v-model="user.userName" />
+        <el-input v-model="user.userName" placeholder="请输入用户名" />
       </el-form-item>
       <el-form-item label="用户状态" prop="state">
         <el-select v-model="user.state" style="width: 180px">
@@ -146,7 +146,7 @@ import { ref, reactive, onMounted, getCurrentInstance, toRaw } from "vue"
 import utils from "../utils/utils.js"
 
 const { proxy } = getCurrentInstance()
-
+// 顶部输入框
 const user = reactive({
   state: 0,
 })
@@ -230,7 +230,7 @@ const handleQuery = () => {
 }
 // 点击重置按钮
 const handleReset = () => {
-  proxy.$refs.form.resetFields()
+  proxy.$refs.queryForm.resetFields()
   getUserList()
 }
 
@@ -365,12 +365,11 @@ const handleSubmit = () => {
       params.action = action.value
       let res = await proxy.$api.userSubmit(params)
       if (res) {
-        dialogVisible.value = false
         ElMessage({
           message: "新增用户成功",
           type: "success",
         })
-        proxy.$refs.dialogForm.resetFields()
+        handleClose()
         getUserList()
       }
     }

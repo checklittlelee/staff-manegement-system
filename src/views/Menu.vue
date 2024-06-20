@@ -2,15 +2,12 @@
   <div class="menu-manage">
     <!-- 上方：输入框 + 查询 + 重置 -->
     <div class="query-form">
-      <el-form :inline="true" :model="queryForm" ref="form">
+      <el-form :inline="true" :model="menu" ref="queryForm">
         <el-form-item label="菜单名称" prop="menuName">
-          <el-input
-            v-model="queryForm.menuName"
-            placeholder="请输出菜单名称"
-          ></el-input>
+          <el-input v-model="menu.menuName" placeholder="请输出菜单名称" />
         </el-form-item>
         <el-form-item label="菜单状态" prop="menuState">
-          <el-select v-model="queryForm.menuState">
+          <el-select v-model="menu.menuState">
             <el-option :value="1" label="正常"></el-option>
             <el-option :value="2" label="停用"></el-option>
           </el-select>
@@ -145,7 +142,7 @@ import utils from "../utils/utils.js"
 
 const { proxy } = getCurrentInstance()
 // 顶部输入框
-const queryForm = reactive({
+const menu = reactive({
   menuState: 1,
 })
 // 菜单列表数据，请求回来后在表格里展示
@@ -209,11 +206,11 @@ onMounted(() => {
 
 // 点击查询按钮
 const handleQuery = () => {
-  getMenuList(queryForm)
+  getMenuList(menu)
 }
 // 点击重置按钮
 const handleReset = () => {
-  proxy.$refs.form.resetFields()
+  proxy.$refs.queryForm.resetFields()
 }
 // 点击删除按钮
 const handleDelete = async (_id) => {
@@ -286,12 +283,11 @@ const handleSubmit = () => {
       let params = { ...menuForm, action: action.value }
       let res = await proxy.$api.menuSubmit(params)
       if (res) {
-        dialogVisible.value = false
         ElMessage({
           message: "操作成功",
           type: "success",
         })
-        proxy.$refs.dialogForm.resetFields()
+        handleClose()
         getMenuList()
       }
     }

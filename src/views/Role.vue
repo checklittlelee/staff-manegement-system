@@ -2,10 +2,10 @@
   <div class="role-manage">
     <!-- 上方：输入框 + 查询 + 重置 -->
     <div class="query-form">
-      <el-form :inline="true" :model="queryForm" ref="form">
+      <el-form :inline="true" :model="role" ref="queryForm">
         <el-form-item label="角色名称" prop="roleName">
           <el-input
-            v-model="queryForm.roleName"
+            v-model="role.roleName"
             placeholder="请输出角色名称"
           ></el-input>
         </el-form-item>
@@ -133,7 +133,7 @@ import utils from "../utils/utils.js"
 
 const { proxy } = getCurrentInstance()
 // 顶部输入框
-const queryForm = reactive({
+const role = reactive({
   roleName: "",
 })
 const roleList = ref([])
@@ -205,7 +205,7 @@ const getRoleList = async () => {
   try {
     const { list, page } = await proxy.$api.roleList({
       ...pager,
-      ...queryForm,
+      ...role,
     })
     roleList.value = list
     pager.total = page.total
@@ -230,7 +230,7 @@ const handleQuery = () => {
 }
 // 点击重置按钮
 const handleReset = () => {
-  proxy.$refs.form.resetFields()
+  proxy.$refs.queryForm.resetFields()
   getRoleList()
 }
 // 点击删除按钮
@@ -314,12 +314,11 @@ const handleSubmitRole = () => {
       let params = { ...roleForm, action: action.value }
       let res = await proxy.$api.roleOperate(params)
       if (res) {
-        dialogVisibleRole.value = false
         ElMessage({
           message: "创建成功",
           type: "success",
         })
-        proxy.$refs.dialogForm.resetFields()
+        handleCloseRole()
         getRoleList()
       }
     }
@@ -349,12 +348,12 @@ const handleSubmitPermission = async () => {
   }
   const res = await proxy.$api.updatePermission(params)
   if (res) {
-    dialogVisiblePermission.value = false
     ElMessage({
       message: "设置成功",
       type: "success",
     })
   }
+  handleClosePermission()
   getRoleList()
 }
 </script>

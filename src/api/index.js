@@ -71,7 +71,7 @@ export default {
       url: "/dept/list",
       method: "get",
       data: params,
-      mock: true,
+      mock: false,
     })
   },
   userSubmit(params) {
