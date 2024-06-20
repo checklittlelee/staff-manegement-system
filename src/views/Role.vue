@@ -137,6 +137,7 @@ const queryForm = reactive({
   roleName: "",
 })
 const roleList = ref([])
+let actionMap = reactive({})
 const columns = reactive([
   {
     label: "角色名称",
@@ -153,9 +154,8 @@ const columns = reactive([
     formatter: (row, column, value) => {
       let names = []
       let list = value.halfCheckedKeys || []
-      console.log(this.actionMap, "actionMap")
       list.map((key) => {
-        let name = this.actionMap[key]
+        let name = actionMap[key]
         if (key && name) names.push(name)
       })
       return names.join(",")
@@ -184,30 +184,28 @@ const pager = reactive({
 })
 const menuList = ref([])
 
-getActionMap(list) {
-  let actionMap = {};
-  console.log(list, 'list')
+const getActionMap = (list) => {
+  let _actionMap = {}
   const deep = (arr) => {
     while (arr.length) {
-      let item = arr.pop();
+      let item = arr.pop()
       if (item.children && item.action) {
-        actionMap[item._id] = item.menuName;
+        _actionMap[item._id] = item.menuName
       }
       if (item.children) {
-        deep(item.children);
+        deep(item.children)
       }
     }
-  };
-  deep(JSON.parse(JSON.stringify(list)));
-  console.log(actionMap, 'actionMap')
-  this.actionMap = actionMap;
-},
+  }
+  deep(JSON.parse(JSON.stringify(list)))
+  actionMap = _actionMap
+}
 // 获取角色列表数据
 const getRoleList = async () => {
   try {
-    const {list, page} = await proxy.$api.roleList({
+    const { list, page } = await proxy.$api.roleList({
       ...pager,
-      ...queryForm
+      ...queryForm,
     })
     roleList.value = list
     pager.total = page.total
@@ -228,11 +226,12 @@ onMounted(() => {
 
 // 点击查询按钮
 const handleQuery = () => {
-  getRoleList(queryForm)
+  getRoleList()
 }
 // 点击重置按钮
 const handleReset = () => {
   proxy.$refs.form.resetFields()
+  getRoleList()
 }
 // 点击删除按钮
 const handleDelete = async (_id) => {
@@ -258,11 +257,11 @@ const handlePageChange = (current) => {
 }
 
 // 对话框相关逻辑
-const dialogVisibleRole = ref(false) // 角色新增
-const dialogVisiblePermission = ref(false) // 权限设置
-const action = ref("")
+let dialogVisibleRole = ref(false) // 角色新增
+let dialogVisiblePermission = ref(false) // 权限设置
+let action = ref("")
 // 对话框中的表格数据收集
-const roleForm = reactive({})
+let roleForm = reactive({})
 const rules = reactive({
   roleName: [
     {
@@ -272,35 +271,32 @@ const rules = reactive({
     },
   ],
 })
-const curRoleName = ref('')
-const curRoleId = ref('')
+const curRoleName = ref("")
+const curRoleId = ref("")
 // 点击创建/新增按钮
 const handleAdd = () => {
-  dialogVisibleRole = true
-  action.value = 'create'
+  dialogVisibleRole.value = true
+  action.value = "create"
 }
 // 点击编辑按钮
 const handleEdit = (row) => {
-  dialogVisible.value = true
+  dialogVisibleRole.value = true
   action.value = "edit"
   proxy.$nextTick(() => {
-    roleForm = {
-      _id: row._id,
-      remark: row.remark,
-      roleName: row.roleName,
-    }
+    Object.assign(roleForm, row)
   })
 }
 // 点击设置权限按钮
-const handlePermission(row) {
+const handlePermission = (row) => {
   dialogVisiblePermission.value = true
   curRoleName.value = row.roleName
   curRoleId.value = row._id
   // 第二步 设置节点
-  const { checkedKeys } = row.permissionList;
+  const { checkedKeys } = row.permissionList
+  // setCheckedKeys：Tree树形控件的一个方法，设置目前选中的节点，使用此方法必须设置 node-key 属性
   setTimeout(() => {
-        proxy.$refs.permissionTree.setCheckedKeys(checkedKeys);
-      })
+    proxy.$refs.permissionTree.setCheckedKeys(checkedKeys)
+  })
 }
 // 点击对话框取消按钮 角色新增
 const handleCloseRole = () => {
@@ -315,7 +311,7 @@ const handleClosePermission = () => {
 const handleSubmitRole = () => {
   proxy.$refs.dialogForm.validate(async (valid) => {
     if (valid) {
-      let params = {...roleForm, action: action.value}
+      let params = { ...roleForm, action: action.value }
       let res = await proxy.$api.roleOperate(params)
       if (res) {
         dialogVisibleRole.value = false
@@ -331,6 +327,34 @@ const handleSubmitRole = () => {
 }
 // 点击对话框确定按钮 权限设置
 const handleSubmitPermission = async () => {
-
+  // getCheckedNodes：Tree树形控件的一个方法，如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组
+  // getHalfCheckedKeys：若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组
+  let nodes = proxy.$refs.permissionTree.getCheckedNodes()
+  let halfKeys = proxy.$refs.permissionTree.getHalfCheckedKeys()
+  let checkedKeys = []
+  let parentKeys = []
+  nodes.map((node) => {
+    if (!node.children) {
+      checkedKeys.push(node._id)
+    } else {
+      parentKeys.push(node._id)
+    }
+  })
+  let params = {
+    _id: curRoleId.value,
+    permissionList: {
+      checkedKeys,
+      halfCheckedKeys: parentKeys.concat(halfKeys),
+    },
+  }
+  const res = await proxy.$api.updatePermission(params)
+  if (res) {
+    dialogVisiblePermission.value = false
+    ElMessage({
+      message: "设置成功",
+      type: "success",
+    })
+  }
+  getRoleList()
 }
 </script>
