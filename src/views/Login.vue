@@ -32,9 +32,9 @@ import { ref, reactive, getCurrentInstance } from "vue"
 import { useRouter } from "vue-router"
 import { useStore } from "vuex"
 import util from "../utils/utils"
+import storage from "../utils/storage"
 import API from "../api"
 import { User, View } from "@element-plus/icons-vue"
-import axios from "axios"
 
 const { proxy } = getCurrentInstance()
 const router = useRouter()
@@ -57,8 +57,8 @@ const login = () => {
   loginForm.value.validate((valid) => {
     if (valid) {
       proxy.$api.login(loginInfo).then((res) => {
-        // console.log("Login.vue页面，", res)
         store.commit("saveUserInfo", res)
+        loadAsyncRoutes()
         router.push("/welcome")
       })
     } else {

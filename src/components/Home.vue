@@ -78,7 +78,6 @@ const router = useRouter()
 const store = useStore()
 
 const noticeCount = computed(() => store.state.noticeCount)
-// const userEmail = computed(() => store.state.userInfo?.userEmail || "")
 const userInfo = store.state.userInfo || {}
 
 // 获取通知数据，分发 Vuex action 执行异步操作
@@ -108,7 +107,7 @@ const menuToggle = () => {
 }
 // 点击通知按钮
 const badgeToggle = () => {
-  console.log("点击通知按钮")
+  router.push("/audit/approve")
 }
 // 点击退出登录按钮
 const logoutToggle = async () => {
@@ -157,6 +156,7 @@ const goHome = () => {
       align-items: center;
       font-size: 18px;
       height: 50px;
+      cursor: pointer;
       img {
         margin: 0 16px;
         width: 32px;
@@ -192,6 +192,7 @@ const goHome = () => {
         padding-right: 10px;
         .notice {
           margin: 6px 30px 0px 0px;
+          cursor: pointer;
         }
         .user-link {
           cursor: pointer;

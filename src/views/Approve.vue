@@ -148,7 +148,7 @@ const columns = reactive([
   {
     label: "休假时间",
     prop: "",
-    width: 200,
+    width: 250,
     formatter(row) {
       return (
         utils.formateDate(new Date(row.startTime), "yyyy-MM-dd") +
@@ -160,7 +160,7 @@ const columns = reactive([
   {
     label: "休假时长",
     prop: "leaveTime",
-    width: 100,
+    width: 180,
   },
   {
     label: "休假类型",
